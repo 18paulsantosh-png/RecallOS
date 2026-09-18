@@ -1,77 +1,259 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RecallOS</title>
-<link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RecallOS — Your Personal Memory</title>
+  <meta name="description" content="RecallOS — an AI-powered personal memory assistant.">
+  <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
-<div class="wrap">
+  <div class="bg-glow glow-one"></div>
+  <div class="bg-glow glow-two"></div>
 
-  <header>
-    <h1>RecallOS</h1>
-    <p>Upload what you want remembered. Ask for it back in plain language.</p>
-  </header>
+  <div class="app-shell">
 
-  <div class="card">
-    <div class="card-head">
-      <h2>Settings</h2>
-      <button class="link-btn" id="settingsToggle">edit</button>
-    </div>
-    <div id="settingsBody">
-      <label class="field-label">AI provider</label>
-      <select id="provider">
-        <option value="gemini">Google Gemini</option>
-        <option value="openai">OpenAI</option>
-        <option value="custom">Custom backend</option>
-      </select>
+    <!-- Top navigation -->
+    <nav class="topbar">
+      <a class="brand" href="#">
+        <span class="brand-mark">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M7.5 4.5A3.5 3.5 0 0 1 11 8v8a3.5 3.5 0 0 1-7 0V9a4.5 4.5 0 0 1 9 0v7a5.5 5.5 0 0 1-11 0V9"
+                  fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <span>Recall<span class="brand-accent">OS</span></span>
+      </a>
 
-      <div id="apiKeyRow">
-        <label class="field-label">API key</label>
-        <input type="password" id="apiKey" placeholder="Paste your API key">
+      <div class="topbar-right">
+        <span class="status-pill">
+          <span class="status-dot"></span>
+          Memory ready
+        </span>
+        <button class="icon-btn" id="settingsToggle" title="Toggle settings" aria-label="Toggle settings">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z"/>
+            <path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-1.8 1.8-.06-.06a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1.03 1.56V20H10.5v-.1a1.7 1.7 0 0 0-1.03-1.56 1.7 1.7 0 0 0-1.88.34l-.06.06-1.8-1.8.06-.06A1.7 1.7 0 0 0 6.13 15a1.7 1.7 0 0 0-1.56-1.03H4v-2.55h.57A1.7 1.7 0 0 0 6.13 10a1.7 1.7 0 0 0-.34-1.88l-.06-.06 1.8-1.8.06.06a1.7 1.7 0 0 0 1.88.34A1.7 1.7 0 0 0 10.5 5.1V4h2.55v1.1a1.7 1.7 0 0 0 1.03 1.56 1.7 1.7 0 0 0 1.88-.34l.06-.06 1.8 1.8-.06.06A1.7 1.7 0 0 0 17.87 10a1.7 1.7 0 0 0 1.56 1.03H20v2.55h-.57A1.7 1.7 0 0 0 19.4 15Z"
+                  fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Hero -->
+    <header class="hero">
+      <div class="hero-badge">
+        <span>✦</span>
+        AI-powered personal memory
       </div>
 
-      <div id="endpointRow" style="display:none;">
-        <label class="field-label">Backend URL</label>
-        <input type="text" id="endpoint" placeholder="https://your-backend.example.com">
+      <h1>Your memory.<br><span>Finally searchable.</span></h1>
+
+      <p>
+        Drop in your notes, documents and screenshots. Then ask RecallOS
+        anything about what you've saved.
+      </p>
+
+      <div class="hero-actions">
+        <a class="hero-cta" href="#upload">
+          Start adding memories
+          <span>↓</span>
+        </a>
+        <span class="hero-note">Private by design · Built for your data</span>
+      </div>
+    </header>
+
+    <!-- Quick overview -->
+    <section class="overview-grid">
+      <div class="overview-card">
+        <span class="overview-icon">01</span>
+        <div>
+          <strong>Remember</strong>
+          <span>Upload your information</span>
+        </div>
+      </div>
+      <div class="overview-card">
+        <span class="overview-icon">02</span>
+        <div>
+          <strong>Ask</strong>
+          <span>Use natural language</span>
+        </div>
+      </div>
+      <div class="overview-card">
+        <span class="overview-icon">03</span>
+        <div>
+          <strong>Recall</strong>
+          <span>Get answers with sources</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Settings -->
+    <section class="card settings-card">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">CONFIGURATION</div>
+          <h2>AI connection</h2>
+        </div>
+        <span class="mini-badge">LOCAL SETTINGS</span>
       </div>
 
-      <button class="primary-btn" id="saveSettings">Save</button>
-      <div class="status" id="settingsStatus"></div>
-    </div>
+      <div id="settingsBody" class="settings-body">
+        <div class="form-grid">
+          <div>
+            <label class="field-label" for="provider">AI provider</label>
+            <select id="provider">
+              <option value="gemini">Google Gemini</option>
+              <option value="openai">OpenAI</option>
+              <option value="custom">Custom backend</option>
+            </select>
+          </div>
+
+          <div id="apiKeyRow">
+            <label class="field-label" for="apiKey">API key</label>
+            <input type="password" id="apiKey" placeholder="Paste your API key">
+          </div>
+
+          <div id="endpointRow" style="display:none;">
+            <label class="field-label" for="endpoint">Backend URL</label>
+            <input type="text" id="endpoint" placeholder="https://your-backend.example.com">
+          </div>
+        </div>
+
+        <div class="settings-actions">
+          <button class="primary-btn" id="saveSettings">
+            <span>Save connection</span>
+            <span>→</span>
+          </button>
+          <div class="status" id="settingsStatus"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Upload -->
+    <section class="card" id="upload">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">YOUR MEMORY</div>
+          <h2>Add something to remember</h2>
+        </div>
+        <span class="count-badge" id="memoryCount">0 files</span>
+      </div>
+
+      <label class="drop" id="dropZone">
+        <input type="file" id="fileInput" multiple accept=".pdf,.png,.jpg,.jpeg,.txt,.md">
+
+        <span class="upload-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5M5 13.5v4A2.5 2.5 0 0 0 7.5 20h9a2.5 2.5 0 0 0 2.5-2.5v-4"
+                  fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+
+        <span class="drop-title">Drop files here</span>
+        <span class="drop-subtitle">or click to browse from your computer</span>
+
+        <span class="file-types">
+          <span>PDF</span>
+          <span>TXT</span>
+          <span>MD</span>
+          <span>PNG</span>
+          <span>JPG</span>
+        </span>
+      </label>
+
+      <div class="chips" id="chips"></div>
+    </section>
+
+    <!-- Ask -->
+    <section class="card ask-card">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">RECALL</div>
+          <h2>What do you remember?</h2>
+        </div>
+        <span class="sparkle">✦</span>
+      </div>
+
+      <div class="ask-box">
+        <span class="search-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="1.7"/>
+            <path d="m16 16 4 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <input type="text" id="question" placeholder="Ask something about your memories…">
+        <button class="primary-btn ask-btn" id="askBtn">
+          <span>Ask RecallOS</span>
+          <span>↗</span>
+        </button>
+      </div>
+
+      <div class="prompt-row">
+        <button class="prompt-chip" type="button" data-question="What are the important deadlines I saved?">Important deadlines</button>
+        <button class="prompt-chip" type="button" data-question="What did I save about my project?">My project</button>
+        <button class="prompt-chip" type="button" data-question="Summarize the key things in my uploaded notes.">Summarize my notes</button>
+      </div>
+
+      <div class="status" id="status"></div>
+    </section>
+
+    <!-- Result -->
+    <section class="card result" id="result">
+      <div class="result-top">
+        <div>
+          <div class="eyebrow">RECALL RESULT</div>
+          <h2>Here's what I found</h2>
+        </div>
+        <span class="answer-badge">AI ANSWER</span>
+      </div>
+
+      <div class="question-block">
+        <span class="result-label">YOUR QUESTION</span>
+        <div class="q-text" id="qText"></div>
+      </div>
+
+      <div class="answer-block">
+        <span class="result-label">ANSWER</span>
+        <div class="a-text" id="aText"></div>
+      </div>
+
+      <div class="sources-block">
+        <span class="result-label">SOURCES</span>
+        <ul class="sources" id="sources"></ul>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-brand">Recall<span>OS</span></div>
+      <span>Personal memory, made searchable.</span>
+      <span>Hackathon build</span>
+    </footer>
   </div>
 
-  <div class="card">
-    <h2>Upload</h2>
-    <label class="drop" id="dropZone">
-      <input type="file" id="fileInput" multiple accept=".pdf,.png,.jpg,.jpeg,.txt,.md">
-      Drop files here, or click to choose — text files are read as context; PDF/image names are stored for reference
-    </label>
-    <div class="chips" id="chips"></div>
-  </div>
+  <script src="js/app.js"></script>
 
-  <div class="card">
-    <h2>Ask</h2>
-    <div class="ask-row">
-      <input type="text" id="question" placeholder="e.g. When did Rahul say the project is due?">
-      <button class="primary-btn" id="askBtn">Ask</button>
-    </div>
-    <div class="status" id="status"></div>
-  </div>
+  <script>
+    // Small UI-only enhancements. Existing app.js functionality remains unchanged.
+    document.querySelectorAll('.prompt-chip').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const question = document.getElementById('question');
+        question.value = btn.dataset.question;
+        question.focus();
+      });
+    });
 
-  <div class="card result" id="result">
-    <div class="q-label">QUESTION</div>
-    <div class="q-text" id="qText"></div>
-    <div class="a-label">ANSWER</div>
-    <div class="a-text" id="aText"></div>
-    <div class="s-label">SOURCES</div>
-    <ul class="sources" id="sources"></ul>
-  </div>
+    const originalRenderChips = window.renderChips;
 
-  <footer>RecallOS — hackathon build</footer>
-</div>
+    // Keep the file counter updated without changing the existing upload logic.
+    const observer = new MutationObserver(() => {
+      const count = document.querySelectorAll('#chips .chip').length;
+      const counter = document.getElementById('memoryCount');
+      if (counter) counter.textContent = `${count} ${count === 1 ? 'file' : 'files'}`;
+    });
 
-<script src="js/app.js"></script>
+    observer.observe(document.getElementById('chips'), { childList: true });
+  </script>
 </body>
 </html>
